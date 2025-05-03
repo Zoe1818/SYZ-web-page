@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Website</title>
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #000000;
+            line-height: 1.6;
+            position: relative;
+        }
+        
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            right: calc(50% - 600px + 20px);
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 10px 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .navbar li {
+            margin: 0;
+        }
+        
+        .navbar a {
+            text-decoration: none;
+            color: #000000;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar a:hover {
+            background-color: #000000;
+            color: white;
+        }
+        
+        /* 顶部横幅样式 */
+        .top-banner {
+            width: 100%;
+            overflow: hidden;
+            margin: 0 auto 30px;
+            text-align: center;
+            height: 150px;
+        }
+        
+        .top-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        /* 首页样式 */
+        .home-section {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin: 50px 0;
+            padding: 20px;
+            background: rgba(195, 195, 195, 0.518);
+            border-radius: 8px;
+        }
+        
+        /* 调整照片尺寸 */
+        .home-section img {
+            width: 200px;
+            height: auto;
+            border-radius: 8px;
+        }
+        
+        .profile-text {
+            flex: 1;
+        }
+        
+        .section-title {
+            color: #212121;
+            border-bottom: 2px solid #323232;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        /* 内容区块样式 */
+        .content-section {
+            margin: 60px 0;
+            padding: 30px;
+            background: rgba(249, 249, 249, 0.7);
+            border-radius: 8px;
+        }
+        
+        /* 采访文档样式 */
+        .document-container {
+            background: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            line-height: 1.8;
+            text-align: center; /* Added this line to center the text */
+        }
+        
+        .document-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #3108ff;
+        }
+        
+        .document-content {
+            white-space: pre-line;
+            text-align: center; /* Added this line to center the text */
+            max-width: 800px; /* Added to prevent lines from becoming too long */
+            margin: 0 auto; /* Centers the content block */
+        }
+        
+        /* 三栏布局样式 */
+        .features-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .feature-column {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .feature-text {
+            background: rgba(249, 249, 249, 0.7);
+            padding: 15px;
+            border-radius: 5px;
+            flex-grow: 1;
+        }
+        
+        .feature-image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; /* Creates square aspect ratio */
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .zoom-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .feature-image-container:hover .zoom-icon {
+            opacity: 1;
+        }
+        
+        /* 联系表单样式 */
+        .contact-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        
+        textarea {
+            height: 120px;
+        }
+        
+        button {
+            background-color: #363636;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #1b1109;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About me</a></li>
+            <li><a href="#interview">Interview</a></li>
+            <li><a href="#works">Works</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <!-- 首页部分 -->
+    <section id="home">
+        <!-- 顶部横幅图片 -->
+        <div class="top-banner">
+            <img src="截屏2025-05-03 上午1.35.45.png" alt="HKBU Campus Banner">
+        </div>
+                    
+        <header>
+            <h1>Sun Yizhuo | personal web</h1>
+            <h2>Hong Kong Baptist University | HKBU | AIDM</h2>
+        </header>
+                    
+        <hr>
+        
+        <!-- 首页介绍部分 -->
+        <section class="home-section">
+            <img src="IMG_0229.jpeg" alt="My Profile Photo">
+            <div class="profile-text">
+                <h1 class="section-title">Welcome! This is me!</h1>
+                <p>Hello! I'm Sun Yizhuo. I'm a student of HKBU. I come from the northern part of China.</p>
+                <p>Before this, I was a freelance photographer and a graphic designer.Usually, I enjoy making picture books. I like to use my brushes to depict my thoughts and stories. Of course, I also love traveling. I will use my camera to record the cities and people I have visited during my travels. In winter, I like to invite my friends and go skiing at my hometown "Changbai Mountain". This is an exercise that I have been persistently doing.</p>
+                <p>On this website, you can learn about my background, read my interview reports, view my portfolio, and get in touch with me through the contact information provided.Thank you！谢谢！</p>
+            </div>
+        </section>
+
+        <!-- 关于我部分 -->
+        <section id="about" class="content-section">
+            <h2 class="section-title">About me</h2>
+            <div class="features-container">
+                <div class="feature-column">
+                    <div class="feature-text">
+                        <h3>Educational background</h3>
+                        <p>Hong Kong Baptist University | MSc | Ai and Digital Media | 2025</p>
+                        <p>LuXun Academy of Fine Arts | Bachelor's degree | Digital media | 2022</p>
+                    </div>
+                </div>
+                
+                <div class="feature-column">
+                    <div class="feature-text">
+                        <h3>Work Experience</h3>
+                        <p>New North Magazine Book | Correction editing | Image editing | 2023</p>
+                        <p>ByteDance| Interactive Media Designer | 2024</p>
+                    </div>
+                </div>
+                
+                <div class="feature-column">
+                    <div class="feature-text">
+                        <h3>Professional skills</h3>
+                        <p>Photography | painting | programming | design</p>
+                    </div>
+                </div>
+            </div>
+        </section>      
+        
+        <!-- 我的采访部分 -->
+        <section id="interview" class="content-section">
+            <h2 class="section-title">My interview</h2>
+            <div class="document-container">
+                <h3 class="document-title">Ms. Xu: Awakening the People of Hong Kong</h3>
+                <div class="document-content">
+Ms. Xu: Awakening the People of Hong Kong
+
+On the morning of April 21, 2025, at 6:00 AM, Ms. Xu began her work for
+the day, sorting trash in a building. Her tools were simple: a broom, a
+garbage bag, and an old mobile phone. The phone stored dozens of
+contacts, all temporary job listings---her "second job list." "Every
+floor here has construction waste. The renovation workers don't sort
+it, so I must." she said while bending over to separate broken tiles,
+wooden boards, and plastic films. It was her third day back at work
+after a two-week break due to a hand injury, but she smiled and said,
+"I treated it as a long vacation." At 45, Ms. Xu is one of thousands
+of sanitation workers in Hong Kong. They weave through the city's
+high-rise crevices, cleaning up its "metabolic waste," yet are rarely
+seen by others. "In the morning, there are inspections. If not done
+well, fines are imposed. But this office building is okay; most of it is
+cardboard, plastic, metal, nothing that gets your hands dirty."
+
+"I Know Hong Kong Best"
+
+Ms. Xu only gave me an hour for the interview. Her work area isn't
+limited to one building. In the morning, she sorts garbage in an
+apartment, in the afternoon, she might be cleaning glass in a Kowloon
+mall, and by evening, she's disposing of trash in an alley behind a
+restaurant on Hong Kong Island. Her phone's contact list is densely
+packed with notes like "Manager Li" and "Supervisor Wang," all
+part-time job agencies. "Garbage increased by 30% during the Easter
+holiday, but part-time work can't stop, need to save money." Her
+so-called "saving money" has no specific target---no children to
+support, no mortgage to pay, her father lives in a nursing home, and
+their monthly meeting meal costs less than a thousand. Yet in recent
+years, she feels "money doesn't last": "A bowl of wonton noodles
+went from 25 to 40 dollars, nursing home fees increased by 500, even
+rubber gloves are expensive."
+
+According to Hong Kong's Census and Statistics Department, real wages
+for grassroots workers in 2023 fell by 2.4% compared to 2018, while the
+Composite Consumer Price Index rose by 14%. Ms. Xu's monthly salary
+(12,000-18,000 HKD) barely exceeds the minimum wage (40 HKD/hour), but
+if she stops working, there's no security---she's employed by a
+private cleaning company and doesn't receive government benefits, with
+only half pay during sick leave. "When I injured my hand, I had no
+income for two weeks, had to dip into savings." She shook her wrist
+with a brace on it; now she wakes up an hour earlier than last year to
+work, because fast work is fast, slow work is slow, the daily workload
+doesn't change much. Her "part-time rush" reflects the expansion of
+the gig economy in Hong Kong. Amid economic downturns, companies prefer
+hiring temporary workers to cut welfare expenses. Labor groups estimate
+about 200,000 "freelancers" like Ms. Xu struggle outside the social
+security net across the city.
+
+"No Dreams, but a 'Running Track'."
+
+When asked about dreams, Ms. Xu shook her head: "Graduated high school
+and started working, no time to think about these things." Her life
+path is a microcosm of some of Hong Kong's grassroots: giving up
+further education due to family circumstances early on, having worked as
+a fisherman, restaurant server, supermarket stocker, and turning to
+sanitation work 10 years ago "because the hourly wage was as high as 5
+dollars."
+
+Her place to sleep and rest is simple: a 6-square-meter partition room
+provided by the company, a single-person room. Her biggest entertainment
+is running around the housing estate's train tracks. "Can't run every
+day, rest when tired. Our job values physical fitness because there are
+regular health checks." Behind this "contentment" is the survival
+logic of Hong Kong's grassroots: when upward mobility is limited,
+lowering desires becomes self-protection. A 2022 study by Lingnan
+University found that the psychological health index of grassroots
+residents in Hong Kong is below average, but paradoxically, their "life
+satisfaction" is higher scholars call it "adaptive numbness."
+
+"Easter? We Only Know Garbage Volume Doubles"
+
+Holidays mean more garbage and longer hours for Ms. Xu. During Easter,
+mall garbage volumes soared, requiring her to work overtime handling
+post-party egg packaging and food scraps. "In tourist-heavy areas,
+trash bins fill up every half hour. We have a shift system during
+holidays; young people want to celebrate, they go out and play, but
+whether we celebrate or not doesn't matter."
+
+The Hong Kong Environmental Protection Department's report shows that
+in 2023, the per capita daily disposal of municipal solid waste reached
+1.53 kilograms, a 23% increase from 10 years ago, but the recycling rate
+was only 31%. Ms. Xu's work is essentially the final step in the
+remedial system: "And 90% of residents throw away waste randomly, they
+won't sort it, we have to re-sort it at the garbage station. Holiday
+garbage is too much, usually three people sort it together. During
+Easter, I was at a mall in Tai Wai, basically guarding the trash bin
+because if you walk away, when you come back, the trash will overflow."
+
+Father in a Nursing Home, where is the Future? Ms. Xu's only family is
+her father in a nursing home. The waiting time for public nursing homes
+in Hong Kong is up to 3 years, so she chose a private facility for her
+father, costing 6,000 HKD per month. "The environment is average, but
+safer than living alone." Hong Kong is facing an aging crisis: 20% of
+the population is over 65, but elderly services are insufficient. Ms. Xu
+also worries about her own old age: "People like us, how dare we think
+about retirement? We have to work until we can't. I'll consider it
+when I really can't work anymore."
+
+Afterword The interview was conducted just after Ms. Xu finished her
+company cleaning work, and she needed to rush to Kwun Tong for her next
+part-time job. In this city with one of the highest per capita GDPs
+globally, the existence of people like Ms. Xu reminds us of the other
+side of prosperity: they clean up Hong Kong's glamour, yet are forced
+to coexist with inflation, gig work, and lack of welfare. Her view on
+her work is: "Someone has to sweep the garbage, right? Young people
+wouldn't want to do our job, otherwise how would the city function?"
+She paused for a moment: "This state is already very balanced; I won't
+complain too much." Perhaps, like the train that passes by her
+dormitory every day, Ms. Xu's life is just a fixed track in Hong
+Kong's vast system---silent, but indispensable.
+                </div>
+            </div>
+        </section>
+     
+        <!-- 我的作品部分 -->
+        <section id="works" class="content-section">
+            <h2 class="section-title">My Other Works</h2>
+            <div class="features-container">
+                <div class="feature-column">
+                    <div class="feature-image-container">
+                        <img src="5f731d750e1e5af93ca05c4cbc46c174.jpg" alt="Dream Core Virtualizer" class="feature-image">
+                        <div class="zoom-icon">🔍</div>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Dream Core Virtualizer</h3>
+                        <p>"Dreamcore" is an aesthetic style and artistic genre derived from the Internet, which mainly creates a surreal atmosphere that is both familiar and strange by imitating the logic of dreams. It is a subculture aesthetic trend.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-column">
+                    <div class="feature-image-container">
+                        <img src="IMG_7827.PNG" alt="The Dream of Trash" class="feature-image">
+                        <div class="zoom-icon">🔍</div>
+                    </div>
+                    <div class="feature-text">
+                        <h3>The Dream of Trash</h3>
+                        <p>The non-biodegradable garbage in the ocean is easily overlooked by people. Their dreams may be fanciful, but they are definitely determined by "us".</p>
+                    </div>
+                </div>
+                
+                <div class="feature-column">
+                    <div class="feature-image-container">
+                        <img src="截屏2023-11-25 下午3.01.21.png" alt="Mechanical Spider" class="feature-image">
+                        <div class="zoom-icon">🔍</div>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Mechanical Spider</h3>
+                        <p>The project involves creating small robotic spiders that can walk around in an art exhibition. Their main function is to interact with the audience in real time. The detailed process from programming to modeling is elaborated.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 联系我部分 -->
+        <section id="contact" class="content-section">
+            <h2 class="section-title">Contact me</h2>
+            <div class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                
+                <div class="form-group full-width" style="text-align: center;">
+                    <button type="submit">Send</button>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; text-align: center;">
+                <h3>Other contact information</h3>
+                <p>Email: zoe36120@outlook.com</p>
+                <p>Tel: +852 1234 5678</p>
+                <p>Address: Hong Kong Baptist University</p>
+            </div>
+        </section>
+    </section>
+</body>
+</html>
